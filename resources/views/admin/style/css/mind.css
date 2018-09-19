@@ -1,0 +1,19 @@
+.multiple{
+    display: none;
+    opacity: 0;
+}
+input[type = 'button'].multiple-btn{
+    /*background: #868686;
+    border-color: #868686;*/
+    position: relative;
+    left: -12px;
+    top: -1px;
+    border-radius: 0;
+    height: 28px;
+    line-height: 28px;
+    padding: 0 18px;
+}
+
+.art-thumb-img{
+    max-width: 300px;
+}
