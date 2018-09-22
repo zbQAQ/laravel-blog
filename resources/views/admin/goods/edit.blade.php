@@ -11,14 +11,14 @@
     <!--面包屑导航 开始-->
     <div class="crumb_warp">
         <!--<i class="fa fa-bell"></i> 欢迎使用登陆网站后台，建站的首选工具。-->
-        <i class="fa fa-home"></i> <a href="{{url('admin/index')}}">首页</a> &raquo; 添加文章
+        <i class="fa fa-home"></i> <a href="{{url('admin/index')}}">首页</a> &raquo; 添加商品
     </div>
     <!--面包屑导航 结束-->
 
 	<!--结果集标题与导航组件 开始-->
 	<div class="result_wrap">
         <div class="result_title">
-            <h3>编辑文章</h3>
+            <h3>编辑商品</h3>
             @if(count($errors)>0)
                 <div class="mark">
                     @if(is_object($errors))
@@ -33,15 +33,15 @@
         </div>
         <div class="result_content">
             <div class="short_wrap">
-                <a href="{{url('admin/article')}}"><i class="fa fa-plus"></i>全部文章</a>
-                <a href="{{url('admin/article/create')}}"><i class="fa fa-recycle"></i>添加文章</a>
+                <a href="{{url('admin/goods')}}"><i class="fa fa-plus"></i>全部商品</a>
+                <a href="{{url('admin/goods/create')}}"><i class="fa fa-recycle"></i>添加商品</a>
             </div>
         </div>
     </div>
     <!--结果集标题与导航组件 结束-->
     
     <div class="result_wrap">
-        <form action="{{url('admin/article/'.$field->art_id)}}" method="post">
+        <form action="{{url('admin/goods/'.$field->goods_id)}}" method="post">
 
             <input type="hidden" name="_method" value="put">
             {{csrf_field()}}
@@ -52,32 +52,26 @@
                         <!-- <i class="require">*</i> -->
                         <th width="120">分类：</th>
                         <td>
-                            <select name="cate_id">
+                            <select name="goods_cate_id">
                                 @foreach($data as $v)
-                                    <option value="{{$v->cate_id}}"
-                                        @if($v->cate_id==$field->cate_id) selected @endif
-                                        >{{$v->_cate_name}}</option>
+                                    <option value="{{$v->gcate_id}}"
+                                        @if($v->gcate_id==$field->goods_cate_id) selected @endif
+                                        >{{$v->gcate_name}}</option>
                                 @endforeach
                             </select>
                         </td>
                     </tr>
                     <tr>
-                        <th>文章标题：</th>
+                        <th>商品标题：</th>
                         <td>
-                            <input type="text" class="lg" name="art_title" value="{{$field->art_title}}">
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>编辑：</th>
-                        <td>
-                            <input type="text" class="sm" name="art_editor" value="{{$field->art_editor}}">
+                            <input type="text" class="lg" name="goods_title" value="{{$field->goods_title}}">
                         </td>
                     </tr>
                     <tr>
                         <th>缩略图：</th>
                         <td>
-                            <input class="multiple-url" id="art_thumb" type="text" size="50" name="art_thumb"
-                                value="{{$field->art_thumb}}" 
+                            <input class="multiple-url" id="goods_thumb" type="text" size="50" name="goods_thumb"
+                                value="{{$field->goods_thumb}}" 
                             >
                             <input id="multiple" class="multiple" type="file" />
                             <input class="multiple-btn" type="button" value="选择图片" />
@@ -86,7 +80,7 @@
                         <tr>
                         <th></th>
                         <td>
-                            <img src="{{$field->art_thumb}}" alt="" class="art-thumb-img" id="art_thumb_img">
+                            <img src="{{$field->goods_thumb}}" alt="" class="art-thumb-img" id="goods_thumb_img">
                         </td>
                     </tr>
                     </tr>
@@ -94,22 +88,22 @@
                     <tr>
                         <th>关键词：</th>
                         <td>
-                            <input type="text" class="lg" name="art_tag" value="{{$field->art_tag}}">
+                            <input type="text" class="lg" name="goods_tag" value="{{$field->goods_tag}}">
                         </td>
                     </tr>
                     <tr>
                         <th>描述：</th>
                         <td>
-                            <textarea name="art_description">{{$field->art_description}}</textarea>
+                            <textarea name="goods_description">{{$field->goods_description}}</textarea>
                         </td>
                     </tr>
                     
                     <tr>
-                        <th>文章内容：</th>
+                        <th>商品内容：</th>
                         <td>
-                            <script id="editor" name="art_content"
+                            <script id="editor" name="goods_content"
                                 type="text/plain" style="width:600px;height:200px;">
-                                {!! $field->art_content !!}
+                                {!! $field->goods_content !!}
                             </script>
                         </td>
                     </tr>
@@ -152,7 +146,7 @@
                 // alert('文件读取完成');  
                 imgFile = e.target.result;  //图片base64码
                 // console.log(imgFile);  
-                $("#art_thumb_img").attr('src', imgFile);
+                $("#goods_thumb_img").attr('src', imgFile);
                 $.ajax({
                     type: 'POST',
                     url: "{{url('admin/upload')}}",
@@ -166,12 +160,12 @@
                     success: (data) => {
 
                         layer.msg(data.msg);
-                        $('#art_thumb')[0].value = data.file
+                        $('#goods_thumb')[0].value = data.file
                     },
                     error: (data) => {
 
                         layer.msg(data.msg);
-                        $('#art_thumb')[0].value = data.file
+                        $('#goods_thumb')[0].value = data.file
                     }
                 })
 

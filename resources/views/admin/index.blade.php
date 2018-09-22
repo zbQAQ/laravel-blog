@@ -23,13 +23,24 @@
 <div class="menu_box">
 	<ul>
 		<li>
-			<h3><i class="fa fa-fw fa-clipboard"></i>常用操作</h3>
+			<h3><i class="fa fa-fw fa-clipboard"></i>文章操作</h3>
 			<ul class="sub_menu">
-				<li><a href="{{url('admin/category/create')}}" target="main"><i class="fa fa-fw fa-plus-square"></i>添加分类</a></li>
-				<li><a href="{{url('admin/category')}}" target="main"><i class="fa fa-fw fa-list-ul"></i>分类列表</a></li>
+				<li><a href="{{url('admin/category/create')}}" target="main"><i class="fa fa-fw fa-plus-square"></i>添加文章分类</a></li>
+				<li><a href="{{url('admin/category')}}" target="main"><i class="fa fa-fw fa-list-ul"></i>文章分类列表</a></li>
 
 				<li><a href="{{url('admin/article/create')}}" target="main"><i class="fa fa-fw fa-plus-square"></i>添加文章</a></li>
 				<li><a href="{{url('admin/article')}}" target="main"><i class="fa fa-fw fa-list-ul"></i>文章列表</a></li>
+				
+			</ul>
+		</li>
+		<li>
+			<h3><i class="fa fa-fw fa-clipboard"></i>商品操作</h3>
+			<ul class="sub_menu">
+				<li><a href="{{url('admin/goodsCate/create')}}" target="main"><i class="fa fa-fw fa-plus-square"></i>添加商品分类</a></li>
+				<li><a href="{{url('admin/goodsCate')}}" target="main"><i class="fa fa-fw fa-list-ul"></i>商品分类列表</a></li>
+
+				<li><a href="{{url('admin/goods/create')}}" target="main"><i class="fa fa-fw fa-plus-square"></i>添加商品</a></li>
+				<li><a href="{{url('admin/goods')}}" target="main"><i class="fa fa-fw fa-list-ul"></i>商品列表</a></li>
 				
 			</ul>
 		</li>
