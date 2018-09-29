@@ -27,4 +27,10 @@ Route::group(['middleware' => 'api', 'namespace'=> 'Api'], function(){
     //获取单个文章
     Route::get('getArt/{art_id}', 'ArticleController@show');
 
+    //获取全部商品
+    Route::get('getGoodslist', 'GoodsController@index');
+
+    //获取单个商品
+    Route::get('getGoods/{goods_id}', 'GoodsController@show');
+
 });

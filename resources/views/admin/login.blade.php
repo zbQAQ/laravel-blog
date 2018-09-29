@@ -25,6 +25,10 @@
 						<span><i class="fa fa-lock"></i></span>
 					</li>
 					<li>
+						<input type="text" name="user_type" class="text" readonly unselectable="on" value="管理员" />
+						<span><i class="fa fa-user-circle-o"></i></span>
+					</li>
+					<li>
 						<input type="text" class="code" name="code"/>
 						<span><i class="fa fa-check-square-o"></i></span>
 						<img src="{{asset('admin/code')}}" alt="" onclick="this.src='{{asset('admin/code')}}?'+ Math.random() ">

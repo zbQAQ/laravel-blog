@@ -17,3 +17,16 @@ input[type = 'button'].multiple-btn{
 .art-thumb-img{
     max-width: 300px;
 }
+
+.show-len{
+    display: inline-block;
+}
+
+.show-len span{
+    margin-left: 2px !important;
+}
+.show-len span.danger{
+    color: #ff4949;
+    font-weight: bold;
+    font-size: 14px;
+}

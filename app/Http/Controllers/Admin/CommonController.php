@@ -42,7 +42,7 @@ class CommonController extends Controller
 		}else{
 		    $data = [
 				'msg' => '图片上传成功！',
-				'file' => $path.'/'.$NewImgName,
+				'file' => 'uploads/'.$NewImgName,
 			];
 		   	return $data;;
 		}

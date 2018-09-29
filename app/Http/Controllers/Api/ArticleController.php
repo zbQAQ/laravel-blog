@@ -16,6 +16,9 @@ class ArticleController extends CommonController
     
     //get.api/article/{article} 显示单个文章
     public function show($art_id) {
+        //查看次数自增
+        Article::where('art_id', $art_id) -> increment('art_view');
+        
         $data = Article::find($art_id);
         return $this->Testing($data);
 

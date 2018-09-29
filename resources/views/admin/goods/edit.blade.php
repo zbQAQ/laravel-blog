@@ -11,7 +11,7 @@
     <!--面包屑导航 开始-->
     <div class="crumb_warp">
         <!--<i class="fa fa-bell"></i> 欢迎使用登陆网站后台，建站的首选工具。-->
-        <i class="fa fa-home"></i> <a href="{{url('admin/index')}}">首页</a> &raquo; 添加商品
+        <i class="fa fa-home"></i> <a href="{{url('admin/info')}}">首页</a> &raquo; 添加商品
     </div>
     <!--面包屑导航 结束-->
 
@@ -62,9 +62,27 @@
                         </td>
                     </tr>
                     <tr>
-                        <th>商品标题：</th>
+                        <th>商品名称：</th>
+                        <td>
+                            <input type="text" class="lg" id="goods_name" name="goods_name" value="{{$field->goods_name}}">
+                            <div class="show-len">
+                                <span class="len">00</span>
+                                <span>/</span>
+                                <span class="maxlen">30</span>
+                            </div>    
+                            <span><i class="fa fa-exclamation-circle yellow"></i>最多输入30个字符</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>商品说明：</th>
                         <td>
                             <input type="text" class="lg" name="goods_title" value="{{$field->goods_title}}">
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>商品价格：</th>
+                        <td>
+                            <input type="text" class="sm" name="goods_price" value="{{$field->goods_price}}">
                         </td>
                     </tr>
                     <tr>
@@ -75,12 +93,13 @@
                             >
                             <input id="multiple" class="multiple" type="file" />
                             <input class="multiple-btn" type="button" value="选择图片" />
+                            <span><i class="fa fa-exclamation-circle yellow"></i>图片名称不要带 ‘ . ’ </span>
 
                         </td>
                         <tr>
                         <th></th>
                         <td>
-                            <img src="{{$field->goods_thumb}}" alt="" class="art-thumb-img" id="goods_thumb_img">
+                            <img src="{{url($field->goods_thumb)}}" alt="" class="art-thumb-img" id="goods_thumb_img">
                         </td>
                     </tr>
                     </tr>
@@ -105,6 +124,7 @@
                                 type="text/plain" style="width:600px;height:200px;">
                                 {!! $field->goods_content !!}
                             </script>
+                            <span><i class="fa fa-exclamation-circle red"></i>请在提示‘ 本地保存成功 ’ 后再提交 </span>
                         </td>
                     </tr>
                     <tr>
@@ -176,6 +196,27 @@
         $(".multiple-btn").click(function () {
             $(".multiple").click();
         });
+
+        //商品名称长度显示
+        const Dinput = $('#goods_name')[0] //输入框
+        const showLen = $('.len') //即时输入的span
+        
+        let len = Dinput.value.length
+        showLen.html(len)
+        Dinput.oninput = () => {
+            len = Dinput.value.length
+            showLen.html(len)
+            if(len > 30) {
+                showLen.addClass('danger')
+            }else{
+                showLen.removeClass('danger')
+            }
+        }
+        if(len > 30) {
+            showLen.addClass('danger')
+        }else{
+            showLen.removeClass('danger')
+        }
     })
 </script>
 

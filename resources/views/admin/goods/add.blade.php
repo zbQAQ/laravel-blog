@@ -11,7 +11,7 @@
     <!--面包屑导航 开始-->
     <div class="crumb_warp">
         <!--<i class="fa fa-bell"></i> 欢迎使用登陆网站后台，建站的首选工具。-->
-        <i class="fa fa-home"></i> <a href="{{url('admin/index')}}">首页</a> &raquo; 添加商品
+        <i class="fa fa-home"></i> <a href="{{url('admin/info')}}">首页</a> &raquo; 添加商品
     </div>
     <!--面包屑导航 结束-->
 
@@ -57,9 +57,27 @@
                         </td>
                     </tr>
                     <tr>
-                        <th>商品标题：</th>
+                        <th>商品名称：</th>
+                        <td>
+                            <input type="text" class="lg" id="goods_name" name="goods_name">
+                            <div class="show-len">
+                                <span class="len">00</span>
+                                <span>/</span>
+                                <span class="maxlen">30</span>
+                            </div>    
+                            <span><i class="fa fa-exclamation-circle yellow"></i>最多输入30个字符</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>商品说明：</th>
                         <td>
                             <input type="text" class="lg" name="goods_title">
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>商品价格：</th>
+                        <td>
+                            <input type="text" class="sm" name="goods_price">
                         </td>
                     </tr>
                     <tr>
@@ -68,6 +86,7 @@
                             <input class="multiple-url" id="goods_thumb" type="text" size="50" name="goods_thumb">
                             <input id="multiple" class="multiple" type="file" />
                             <input class="multiple-btn" type="button" value="选择图片" />
+                            <span><i class="fa fa-exclamation-circle yellow"></i>图片名称不要带 ‘ . ’ </span>
 
                         </td>
                         <tr>
@@ -97,6 +116,7 @@
                             <script id="editor" name="goods_content"
                                 type="text/plain" style="width:600px;height:200px;">
                             </script>
+                            <span><i class="fa fa-exclamation-circle red"></i>请在提示‘ 本地保存成功 ’ 后再提交 </span>
                         </td>
                     </tr>
                     <tr>
@@ -124,8 +144,8 @@
     //实例化编辑器
     var ue = UE.getEditor('editor');
     var ent_rules = ['.jpg', '.png', '.jpeg']
-    //异步上传图片
     $(function () {
+        //异步上传图片
         $('#multiple').change( () => {
             var fileName = $('#multiple')[0].value //获取选择图片的临时路径
             var endindex = fileName.indexOf('.') //获取后缀 . 的下标
@@ -184,6 +204,21 @@
         $(".multiple-btn").click(function () {
             $(".multiple").click();
         });
+
+        //商品名称长度显示
+        const Dinput = $('#goods_name')[0] //输入框
+        const showLen = $('.len') //即时输入的span
+        
+        let len = 0
+        Dinput.oninput = () => {
+            len = Dinput.value.length
+            showLen.html(len)
+            if(len > 30) {
+                showLen.addClass('danger')
+            }else{
+                showLen.removeClass('danger')
+            }
+        }
     })
 </script>
 

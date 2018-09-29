@@ -3,7 +3,7 @@
     <!--面包屑导航 开始-->
     <div class="crumb_warp">
         <!--<i class="fa fa-bell"></i> 欢迎使用登陆网站后台，建站的首选工具。-->
-        <i class="fa fa-home"></i> <a href="{{url('admin/index')}}">首页</a>  &raquo; 商品管理
+        <i class="fa fa-home"></i> <a href="{{url('admin/info')}}">首页</a>  &raquo; 商品管理
     </div>
     <!--面包屑导航 结束-->
 
@@ -36,11 +36,11 @@
                 <table class="list_tab">
                     <tr>
                         <th width="5%" class="tc">ID</th>
-                        <th width="15%">名称</th>
-                        <th>描述</th>
+                        <th>名称</th>
+                        <th width="20%">描述</th>
                         <th width="10%">商品类别</th>
                         <th width="5%">点击</th>
-                        <th width="15%">更新时间</th>
+                        <th width="5%">价格</th>
                         <th width="15%">操作</th>
                     </tr>
                     
@@ -55,7 +55,7 @@
 
                         <td>{{$v->goods_cate_name}}</td>
                         <td>{{$v->goods_view}}</td>
-                        <td>{{date('Y-m-d h:i', $v->goods_time)}}</td>
+                        <td>{{$v->goods_price}}</td>
                         <td>
                             <a href="{{url('admin/goods/'.$v->goods_id.'/edit')}}">修改</a>
                             <a href="javascript:;" onclick="delGoods({{$v->goods_id}} )">删除</a>
@@ -64,6 +64,9 @@
                     @endforeach
                 </table>
                
+                <div class="page_list">
+                    {{$data->links()}}
+                </div>
             </div>
         </div>
     </form>
@@ -79,13 +82,13 @@
 
 <script type="text/javascript">
     
-    function delGoods(art_id) {
+    function delGoods(goods_id) {
         // console.log(art_id)
         layer.confirm('您确定要删除这件商品吗？', {
           btn: ['确定','取消'] //按钮
         }, function(){
 
-          $.post("{{url('admin/goods/')}}/"+ art_id,
+          $.post("{{url('admin/goods/')}}/"+ goods_id,
             {'_method':'delete', '_token':'{{csrf_token()}}'}, 
             data => {
                 if(data.status == 0){
