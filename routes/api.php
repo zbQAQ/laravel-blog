@@ -23,14 +23,17 @@ Route::group(['middleware' => 'api', 'namespace'=> 'Api'], function(){
 
     //获取全部文章
     Route::get('getArticle', 'ArticleController@index');
-
     //获取单个文章
     Route::get('getArt/{art_id}', 'ArticleController@show');
 
     //获取全部商品
     Route::get('getGoodslist', 'GoodsController@index');
-
     //获取单个商品
     Route::get('getGoods/{goods_id}', 'GoodsController@show');
+
+    //获取全部商品分类
+    Route::get('getGoodscate', 'GoodsCateController@index');
+    //获取单个商品分类
+    Route::get('getGoodscate/{gcate_id}', 'GoodsCateController@show');
 
 });
