@@ -2,7 +2,8 @@
     display: none;
     opacity: 0;
 }
-input[type = 'button'].multiple-btn{
+input[type = 'button'].multiple-btn,
+input[type = 'button'].cont-multiple-btn{
     /*background: #868686;
     border-color: #868686;*/
     position: relative;
@@ -12,6 +13,18 @@ input[type = 'button'].multiple-btn{
     height: 28px;
     line-height: 28px;
     padding: 0 18px;
+}
+
+.contentGroup{
+    position: relative;
+}
+.contentGroup .none-btn{
+    margin-left: 60px;
+}
+input[type = 'button'].cont-multiple-btn{
+    position: absolute;
+    left: 10px;
+    top: 9px;
 }
 
 .art-thumb-img{
@@ -29,4 +42,19 @@ input[type = 'button'].multiple-btn{
     color: #ff4949;
     font-weight: bold;
     font-size: 14px;
+}
+
+.cont_img_show{
+    width: 100%;
+    max-width: 592px;
+}
+
+td .stock{
+    display: inline-block;
+    margin-left: 10px;
+}
+td .stock span{
+    color: #333;
+    font-size: 14px;
+    line-height: 40px;
 }

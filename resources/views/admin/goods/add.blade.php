@@ -78,6 +78,10 @@
                         <th>商品价格：</th>
                         <td>
                             <input type="text" class="sm" name="goods_price">
+                            <div class="stock">
+                                <span>商品库存：</span>
+                                <input type="text" class="sm" name="goods_stock">
+                            </div>
                         </td>
                     </tr>
                     <tr>
@@ -87,16 +91,14 @@
                             <input id="multiple" class="multiple" type="file" />
                             <input class="multiple-btn" type="button" value="选择图片" />
                             <span><i class="fa fa-exclamation-circle yellow"></i>图片名称不要带 ‘ . ’ </span>
-
                         </td>
-                        <tr>
+                    </tr>
+                    <tr>
                         <th></th>
                         <td>
                             <img src="" alt="" class="art-thumb-img" id="goods_thumb_img">
                         </td>
                     </tr>
-                    </tr>
-                    
                     <tr>
                         <th>关键词：</th>
                         <td>
@@ -111,12 +113,17 @@
                     </tr>
                     
                     <tr>
-                        <th>商品内容：</th>
-                        <td>
-                            <script id="editor" name="goods_content"
-                                type="text/plain" style="width:600px;height:200px;">
-                            </script>
-                            <span><i class="fa fa-exclamation-circle red"></i>请在提示‘ 本地保存成功 ’ 后再提交 </span>
+                        <th>商品内容 ( 图片 )：</th>
+                        <td class="contentGroup">
+                            <input class="cont-multiple-btn" type="button" value="选择内容图片" />
+                            <input class="none-btn" type="file" id="cont_imgGroup" multiple>
+                            <span><i class="fa fa-exclamation-circle yellow"></i>请将图片修改好后，一次性上传 </span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th></th>
+                        <td id="tr_Group">
+                            
                         </td>
                     </tr>
                     <tr>
@@ -131,22 +138,15 @@
         </form>
     </div>
 
-<!-- 描述编辑文档js -->
-<script type="text/javascript" charset="utf-8" src="{{asset('resources/org/ueditor/ueditor.config.js')}}"></script>
-<script type="text/javascript" charset="utf-8" src="{{asset('resources/org/ueditor/ueditor.all.min.js')}}"> </script>
-<script type="text/javascript" charset="utf-8" src="{{asset('resources/org/ueditor/lang/zh-cn/zh-cn.js')}}"></script>
-
-
 <!-- <script src="{{asset('resources/org/jiaoben5392/js/bootstrap-fileinput.js')}}"></script> -->
-
+<script src="{{asset('resources/views/admin/style/js/img-uploads.js')}}"></script>
 
 <script type="text/javascript">
-    //实例化编辑器
-    var ue = UE.getEditor('editor');
+    const log = console.log.bind(console)
     var ent_rules = ['.jpg', '.png', '.jpeg']
     $(function () {
         //异步上传图片
-        $('#multiple').change( () => {
+        $('.multiple').change( () => {
             var fileName = $('#multiple')[0].value //获取选择图片的临时路径
             var endindex = fileName.indexOf('.') //获取后缀 . 的下标
             var entension = fileName.substring(endindex) //截取 .开始的后缀 列如 .jpg
@@ -166,10 +166,10 @@
                 var reader = new FileReader();  
                 //创建文件读取相关的变量  
                 var imgFile;  
-                reader.onload=function(e) {  
+                reader.readAsDataURL(file)
+                reader.onload=function(e) {
                     // alert('文件读取完成');  
                     imgFile = e.target.result;  //图片base64码
-                    // console.log(imgFile);  
                     $("#goods_thumb_img").attr('src', imgFile);
                     $.ajax({
                         type: 'POST',
@@ -192,10 +192,9 @@
                             $('#goods_thumb')[0].value = data.file
                         }
                     })
-
                 };  
                 //正式读取文件  
-                reader.readAsDataURL(file);
+                // 
             }else{
                 return layer.msg('请选择正确的图片 ( jpg, png, jpeg ) ')
             }
@@ -205,10 +204,53 @@
             $(".multiple").click();
         });
 
+
+        //异步上传商品内容的图片 可多选
+        $("#cont_imgGroup").change( () => {
+            var files = $("#cont_imgGroup")[0].files
+            $('#tr_Group').empty()
+            var imgFile = imgTpBase64(files, () => {
+                $.ajax({
+                    type: 'POST',
+                    url: "{{url('admin/upload')}}",
+                    async: true,
+                    data:{
+                        '_token': '{{csrf_token()}}',
+                        'imgBaseData': imgFile,
+                        'entension': '.jpg'
+                    },
+                    success: (data) => {
+
+                        layer.msg(data.msg);
+                        $.each(imgFile, (index, val) => {
+                            $('#tr_Group').append(`
+                                <div class="img-show">
+                                    <input type="hidden" name="goods_content[`+ index +`]" class="class_goods_content"
+                                        value="uploads/`+ data.imgfiles[index] +`"
+                                    >
+                                    <img src="`+ val +`" class="cont_img_show" alt="">
+                                </div>
+                            `)
+                        })
+
+                    },
+                    error: (data) => {
+                        layer.msg(data.msg);
+                        // $('#goods_thumb')[0].value = data.file
+                    }
+                })
+            })
+            
+        })
+
+        $(".cont-multiple-btn").click(function () {
+            $("#cont_imgGroup").click()
+        });
+
+
         //商品名称长度显示
         const Dinput = $('#goods_name')[0] //输入框
         const showLen = $('.len') //即时输入的span
-        
         let len = 0
         Dinput.oninput = () => {
             len = Dinput.value.length
@@ -220,8 +262,8 @@
             }
         }
     })
-</script>
 
+</script>
 
 
 @endsection

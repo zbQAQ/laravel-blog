@@ -41,6 +41,7 @@
                         <th width="10%">商品类别</th>
                         <th width="5%">点击</th>
                         <th width="5%">价格</th>
+                        <th width="5%">库存</th>
                         <th width="15%">操作</th>
                     </tr>
                     
@@ -56,6 +57,7 @@
                         <td>{{$v->goods_cate_name}}</td>
                         <td>{{$v->goods_view}}</td>
                         <td>{{$v->goods_price}}</td>
+                        <td>{{$v->goods_stock}}</td>
                         <td>
                             <a href="{{url('admin/goods/'.$v->goods_id.'/edit')}}">修改</a>
                             <a href="javascript:;" onclick="delGoods({{$v->goods_id}} )">删除</a>

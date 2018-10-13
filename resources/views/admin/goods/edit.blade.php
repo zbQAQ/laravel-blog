@@ -11,7 +11,7 @@
     <!--面包屑导航 开始-->
     <div class="crumb_warp">
         <!--<i class="fa fa-bell"></i> 欢迎使用登陆网站后台，建站的首选工具。-->
-        <i class="fa fa-home"></i> <a href="{{url('admin/info')}}">首页</a> &raquo; 添加商品
+        <i class="fa fa-home"></i> <a href="{{url('admin/info')}}">首页</a> &raquo; 修改商品
     </div>
     <!--面包屑导航 结束-->
 
@@ -83,6 +83,10 @@
                         <th>商品价格：</th>
                         <td>
                             <input type="text" class="sm" name="goods_price" value="{{$field->goods_price}}">
+                            <div class="stock">
+                                <span>商品库存：</span>
+                                <input type="text" class="sm" name="goods_stock" value="{{$field->goods_stock}}">
+                            </div>
                         </td>
                     </tr>
                     <tr>
@@ -118,13 +122,26 @@
                     </tr>
                     
                     <tr>
-                        <th>商品内容：</th>
-                        <td>
-                            <script id="editor" name="goods_content"
-                                type="text/plain" style="width:600px;height:200px;">
-                                {!! $field->goods_content !!}
-                            </script>
-                            <span><i class="fa fa-exclamation-circle red"></i>请在提示‘ 本地保存成功 ’ 后再提交 </span>
+                        <th>商品内容 ( 图片 )：</th>
+                        <td class="contentGroup">
+                            <input class="cont-multiple-btn" type="button" value="选择内容图片" />
+                            <input class="none-btn" type="file" id="cont_imgGroup" multiple>
+                            <span><i class="fa fa-exclamation-circle yellow"></i>请将图片修改好后，一次性上传 </span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th></th>
+                        <td id="tr_Group">
+
+                            @foreach($field->goods_content as $k => $v)
+                                <div class="img-show">
+                                    <input type="hidden" name="goods_content[{{$k}}]" class="class_goods_content"
+                                        value="{{$v}}"
+                                    >
+                                    <img src="{{url($v)}}" class="cont_img_show" alt="">
+                                </div>
+                            @endforeach
+                            
                         </td>
                     </tr>
                     <tr>
@@ -139,18 +156,13 @@
         </form>
     </div>
 
-<!-- 描述编辑文档js -->
-<script type="text/javascript" charset="utf-8" src="{{asset('resources/org/ueditor/ueditor.config.js')}}"></script>
-<script type="text/javascript" charset="utf-8" src="{{asset('resources/org/ueditor/ueditor.all.min.js')}}"> </script>
-<script type="text/javascript" charset="utf-8" src="{{asset('resources/org/ueditor/lang/zh-cn/zh-cn.js')}}"></script>
 
 
 <!-- <script src="{{asset('resources/org/jiaoben5392/js/bootstrap-fileinput.js')}}"></script> -->
+<script src="{{asset('resources/views/admin/style/js/img-uploads.js')}}"></script>
 
 
 <script type="text/javascript">
-    //实例化编辑器
-    var ue = UE.getEditor('editor');
 
     //异步上传图片
     $(function () {
@@ -196,8 +208,51 @@
         $(".multiple-btn").click(function () {
             $(".multiple").click();
         });
+        
+        //异步上传商品内容的图片 可多选
+        $("#cont_imgGroup").change( () => {
+            var files = $("#cont_imgGroup")[0].files
+            $('#tr_Group').empty()
+            var imgFile = imgTpBase64(files, () => {
+                $.ajax({
+                    type: 'POST',
+                    url: "{{url('admin/upload')}}",
+                    async: true,
+                    data:{
+                        '_token': '{{csrf_token()}}',
+                        'imgBaseData': imgFile,
+                        'entension': '.jpg'
+                    },
+                    success: (data) => {
 
-        //商品名称长度显示
+                        layer.msg(data.msg);
+                        $.each(imgFile, (index, val) => {
+                            $('#tr_Group').append(`
+                                <div class="img-show">
+                                    <input type="hidden" name="goods_content[`+ index +`]" class="class_goods_content"
+                                        value="uploads/`+ data.imgfiles[index] +`"
+                                    >
+                                    <img src="`+ val +`" class="cont_img_show" alt="">
+                                </div>
+                            `)
+                        })
+
+                    },
+                    error: (data) => {
+                        layer.msg(data.msg);
+                        // $('#goods_thumb')[0].value = data.file
+                    }
+                })
+            })
+            
+        })
+
+        $(".cont-multiple-btn").click(function () {
+            $("#cont_imgGroup").click()
+        });
+
+
+
         const Dinput = $('#goods_name')[0] //输入框
         const showLen = $('.len') //即时输入的span
         
@@ -218,6 +273,7 @@
             showLen.removeClass('danger')
         }
     })
+    
 </script>
 
 

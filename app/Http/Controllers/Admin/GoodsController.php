@@ -33,7 +33,6 @@ class GoodsController extends CommonController
 
     //post.admin/goods  添加商品提交
     public function store() {
-        
         $input = Input::except('_token');
         $input['goods_time'] = time();
         // dd(mb_strlen($input['goods_name'],'utf8'));
@@ -44,6 +43,7 @@ class GoodsController extends CommonController
             'goods_content' => 'required',
             'goods_thumb' => 'required',
             'goods_price' => 'required|numeric',
+            'goods_stock' => 'required|numeric',
         ];
 
         $message = [
@@ -53,11 +53,15 @@ class GoodsController extends CommonController
             'goods_thumb.required' => '商品图片不能为空!',
             'goods_price.required' => '商品价格不能为空!',
             'goods_price.numeric' => '商品价格必须为数字!',
+            'goods_stock.required' => '商品库存不能为空!',
+            'goods_stock.numeric' => '商品库存必须为数字!',
         ];
 
         $validator = Validator::make($input, $rules, $message);
 
         if($validator->passes()){
+            //goods_content传过来是数组 把它转换成字符串 以 | 分割存进数据库
+            $input['goods_content'] = implode('|', $input['goods_content']);
 
             $res = Goods::create($input);
 
@@ -81,12 +85,16 @@ class GoodsController extends CommonController
         $data = GoodsCate::orderby('gcate_view', 'asc') -> get();//获取商品分类
 
         $field = Goods::find($goods_id);
+        $field['goods_content'] = explode('|', $field['goods_content']);
+
         return view('admin.goods.edit', compact('data','field'));
     }
 
     //put.admin/goods/{goods}  更新分类
     public function update($goods_id) {
         $input = Input::except('_token','_method');
+        
+        $input['goods_content'] = implode('|', $input['goods_content']);
 
         $res = Goods::where('goods_id', $goods_id) -> update($input);
 
