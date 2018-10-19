@@ -14,7 +14,7 @@ class GoodsCateController extends CommonController
 
         $goodscate = GoodsCate::all(); //获取完整的商品分类列表
 
-        return $this->Testing($goodscate);
+        return $this->Testing($goodscate, true);
     }
     
     //get.api/goods/{goods} 显示单个商品分类
@@ -25,7 +25,7 @@ class GoodsCateController extends CommonController
 
         $goodscate = GoodsCate::find($gcate_id);
 
-        return $this->Testing($goodscate);
+        return $this->Testing($goodscate, true);
 
     }
 

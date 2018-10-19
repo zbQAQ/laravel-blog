@@ -11,7 +11,7 @@ class ArticleController extends CommonController
     public function index() {
     	$data = Article::get();
         
-        return $this->Testing($data);
+        return $this->Testing($data, true);
     }
     
     //get.api/article/{article} 显示单个文章
@@ -20,7 +20,7 @@ class ArticleController extends CommonController
         Article::where('art_id', $art_id) -> increment('art_view');
         
         $data = Article::find($art_id);
-        return $this->Testing($data);
+        return $this->Testing($data, true);
 
     }
 

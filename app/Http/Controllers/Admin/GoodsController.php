@@ -33,6 +33,7 @@ class GoodsController extends CommonController
 
     //post.admin/goods  添加商品提交
     public function store() {
+        $input = Input::all();
         $input = Input::except('_token');
         $input['goods_time'] = time();
         // dd(mb_strlen($input['goods_name'],'utf8'));

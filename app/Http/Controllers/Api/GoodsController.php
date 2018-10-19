@@ -15,7 +15,7 @@ class GoodsController extends CommonController
         $goods = Goods::all(); //获取完整的商品列表
         $field =  (new GoodsCate) -> getGoodsCate($goods); //获取处理好分类名字的商品列表。。
 
-        return $this->Testing($field);
+        return $this->Testing($field, true);
     }
     
     //get.api/goods/{goods} 显示单个商品
@@ -28,7 +28,7 @@ class GoodsController extends CommonController
         $goods = Goods::Join('GoodsCate', 'Goods.goods_cate_id', '=', 'GoodsCate.gcate_id')->where('goods_id', $goods_id)->first();
         //$data =  (new GoodsCate) -> getGoodsCate($goods); //获取处理好分类名字的商品
 
-        return $this->Testing($goods);
+        return $this->Testing($goods, true);
 
     }
 

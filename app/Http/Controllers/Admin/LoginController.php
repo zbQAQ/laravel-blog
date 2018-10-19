@@ -22,7 +22,7 @@ class LoginController extends CommonController
     			return back()->with('msg', '验证码不正确!');
 			}
 			
-    		$userArr = User::all();  //数据库获取的管理员信息
+    	$userArr = User::all();  //数据库获取的管理员信息
 			foreach($userArr as $v) {
 				if($v['user_type'] === '管理员') {
 					$user = $v;
@@ -46,11 +46,11 @@ class LoginController extends CommonController
 
     }
     public function quit() {
-		session(['user'=>null]);
-		return redirect('admin/login');
+			session(['user'=>null]);
+			return redirect('admin/login');
     }
     public function code() {
-		$code = new Code;
+			$code = new Code;
     	$code -> make();
     }
 

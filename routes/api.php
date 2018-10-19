@@ -17,9 +17,11 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-
 //前端API接口
 Route::group(['middleware' => 'api', 'namespace'=> 'Api'], function(){
+
+    //登录
+    Route::post('login', 'LoginController@login');
 
     //获取全部文章
     Route::get('getArticle', 'ArticleController@index');
